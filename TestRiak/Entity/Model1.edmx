@@ -1,0 +1,1037 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HotelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="DNI" />
+          </Key>
+          <Property Name="DNI" Type="char" MaxLength="9" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="10" />
+          <Property Name="Apellidos" Type="varchar" MaxLength="30" />
+          <Property Name="Domicilio" Type="char" MaxLength="30" />
+          <Property Name="Telefono" Type="varchar" MaxLength="9" />
+        </EntityType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="NumReg" />
+          </Key>
+          <Property Name="NumReg" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="32" />
+          <Property Name="Incorporacion" Type="datetime" />
+          <Property Name="Sueldo" Type="int" />
+          <Property Name="CodS" Type="int" />
+        </EntityType>
+        <EntityType Name="Factura">
+          <Key>
+            <PropertyRef Name="CodigoF" />
+          </Key>
+          <Property Name="CodigoF" Type="int" Nullable="false" />
+          <Property Name="Entrada" Type="datetime" />
+          <Property Name="Salida" Type="datetime" />
+          <Property Name="DNI" Type="char" MaxLength="9" />
+          <Property Name="Numero" Type="int" Nullable="false" />
+          <Property Name="supletoria" Type="int" />
+          <Property Name="Forma" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Total" Type="real" />
+        </EntityType>
+        <EntityType Name="Factura_Prov">
+          <Key>
+            <PropertyRef Name="CodFP" />
+          </Key>
+          <Property Name="CodFP" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="Importe" Type="int" />
+          <Property Name="NIF" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="NumReg" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FormaPago">
+          <Key>
+            <PropertyRef Name="Forma" />
+          </Key>
+          <Property Name="Forma" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="comision" Type="int" />
+        </EntityType>
+        <EntityType Name="Habitacion">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="int" Nullable="false" />
+          <Property Name="superficie" Type="int" />
+          <Property Name="bar" Type="char" MaxLength="2" />
+          <Property Name="terraza" Type="char" MaxLength="2" />
+          <Property Name="puedesupletoria" Type="char" MaxLength="2" />
+          <Property Name="Tipo" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Incluye">
+          <Key>
+            <PropertyRef Name="CodigoF" />
+            <PropertyRef Name="CodS" />
+            <PropertyRef Name="fecha" />
+          </Key>
+          <Property Name="CodigoF" Type="int" Nullable="false" />
+          <Property Name="CodS" Type="int" Nullable="false" />
+          <Property Name="coste" Type="int" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Limpieza">
+          <Key>
+            <PropertyRef Name="NumReg" />
+            <PropertyRef Name="Numero" />
+            <PropertyRef Name="Fecha" />
+          </Key>
+          <Property Name="NumReg" Type="int" Nullable="false" />
+          <Property Name="Numero" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Precio">
+          <Key>
+            <PropertyRef Name="Tipo" />
+          </Key>
+          <Property Name="Tipo" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="precio" Type="int" />
+        </EntityType>
+        <EntityType Name="Proveedor">
+          <Key>
+            <PropertyRef Name="NIF" />
+          </Key>
+          <Property Name="NIF" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="16" />
+          <Property Name="Direccion" Type="char" MaxLength="30" />
+          <Property Name="NumReg" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reserva">
+          <Key>
+            <PropertyRef Name="DNI" />
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="DNI" Type="char" MaxLength="9" Nullable="false" />
+          <Property Name="Numero" Type="int" Nullable="false" />
+          <Property Name="Entrada" Type="datetime" />
+          <Property Name="Salida" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Servicio">
+          <Key>
+            <PropertyRef Name="CodS" />
+          </Key>
+          <Property Name="CodS" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="char" MaxLength="15" />
+          <Property Name="costeinterno" Type="int" />
+          <Property Name="NumReg" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usa">
+          <Key>
+            <PropertyRef Name="CodS" />
+            <PropertyRef Name="Servicio_CodS" />
+            <PropertyRef Name="fecha" />
+          </Key>
+          <Property Name="CodS" Type="int" Nullable="false" />
+          <Property Name="Servicio_CodS" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Empleado__CodS__5165187F">
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="0..1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicio">
+              <PropertyRef Name="CodS" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="CodS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Factura__DNI__48CFD27E">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+          <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="DNI" />
+            </Principal>
+            <Dependent Role="Factura">
+              <PropertyRef Name="DNI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Factura__Forma__4AB81AF0">
+          <End Role="FormaPago" Type="Self.FormaPago" Multiplicity="1" />
+          <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormaPago">
+              <PropertyRef Name="Forma" />
+            </Principal>
+            <Dependent Role="Factura">
+              <PropertyRef Name="Forma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Factura__Numero__49C3F6B7">
+          <End Role="Habitacion" Type="Self.Habitacion" Multiplicity="1" />
+          <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Habitacion">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Factura">
+              <PropertyRef Name="Numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Factura_P__NumRe__5FB337D6">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Factura_Prov" Type="Self.Factura_Prov" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="NumReg" />
+            </Principal>
+            <Dependent Role="Factura_Prov">
+              <PropertyRef Name="NumReg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Factura_Pro__NIF__5EBF139D">
+          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="1" />
+          <End Role="Factura_Prov" Type="Self.Factura_Prov" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedor">
+              <PropertyRef Name="NIF" />
+            </Principal>
+            <Dependent Role="Factura_Prov">
+              <PropertyRef Name="NIF" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Habitacion__Tipo__3F466844">
+          <End Role="Precio" Type="Self.Precio" Multiplicity="1" />
+          <End Role="Habitacion" Type="Self.Habitacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Precio">
+              <PropertyRef Name="Tipo" />
+            </Principal>
+            <Dependent Role="Habitacion">
+              <PropertyRef Name="Tipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Incluye__CodigoF__5812160E">
+          <End Role="Factura" Type="Self.Factura" Multiplicity="1" />
+          <End Role="Incluye" Type="Self.Incluye" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Factura">
+              <PropertyRef Name="CodigoF" />
+            </Principal>
+            <Dependent Role="Incluye">
+              <PropertyRef Name="CodigoF" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Incluye__CodS__59063A47">
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
+          <End Role="Incluye" Type="Self.Incluye" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicio">
+              <PropertyRef Name="CodS" />
+            </Principal>
+            <Dependent Role="Incluye">
+              <PropertyRef Name="CodS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Limpieza__Numero__6383C8BA">
+          <End Role="Habitacion" Type="Self.Habitacion" Multiplicity="1" />
+          <End Role="Limpieza" Type="Self.Limpieza" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Habitacion">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Limpieza">
+              <PropertyRef Name="Numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Limpieza__NumReg__628FA481">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Limpieza" Type="Self.Limpieza" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="NumReg" />
+            </Principal>
+            <Dependent Role="Limpieza">
+              <PropertyRef Name="NumReg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Proveedor__NumRe__5BE2A6F2">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="NumReg" />
+            </Principal>
+            <Dependent Role="Proveedor">
+              <PropertyRef Name="NumReg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reserva__DNI__4222D4EF">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="DNI" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="DNI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reserva__Numero__4316F928">
+          <End Role="Habitacion" Type="Self.Habitacion" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Habitacion">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="Numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Servicio__NumReg__4F7CD00D">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="NumReg" />
+            </Principal>
+            <Dependent Role="Servicio">
+              <PropertyRef Name="NumReg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usa__CodS__5441852A">
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
+          <End Role="Usa" Type="Self.Usa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicio">
+              <PropertyRef Name="CodS" />
+            </Principal>
+            <Dependent Role="Usa">
+              <PropertyRef Name="CodS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usa__Servicio_Co__5535A963">
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
+          <End Role="Usa" Type="Self.Usa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicio">
+              <PropertyRef Name="CodS" />
+            </Principal>
+            <Dependent Role="Usa">
+              <PropertyRef Name="Servicio_CodS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HotelModelStoreContainer">
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Factura" EntityType="Self.Factura" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Factura_Prov" EntityType="Self.Factura_Prov" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FormaPago" EntityType="Self.FormaPago" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Habitacion" EntityType="Self.Habitacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Incluye" EntityType="Self.Incluye" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Limpieza" EntityType="Self.Limpieza" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Precio" EntityType="Self.Precio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proveedor" EntityType="Self.Proveedor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reserva" EntityType="Self.Reserva" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Servicio" EntityType="Self.Servicio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usa" EntityType="Self.Usa" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Empleado__CodS__5165187F" Association="Self.FK__Empleado__CodS__5165187F">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Factura__DNI__48CFD27E" Association="Self.FK__Factura__DNI__48CFD27E">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Factura" EntitySet="Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Factura__Forma__4AB81AF0" Association="Self.FK__Factura__Forma__4AB81AF0">
+            <End Role="FormaPago" EntitySet="FormaPago" />
+            <End Role="Factura" EntitySet="Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Factura__Numero__49C3F6B7" Association="Self.FK__Factura__Numero__49C3F6B7">
+            <End Role="Habitacion" EntitySet="Habitacion" />
+            <End Role="Factura" EntitySet="Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Factura_P__NumRe__5FB337D6" Association="Self.FK__Factura_P__NumRe__5FB337D6">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Factura_Prov" EntitySet="Factura_Prov" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Factura_Pro__NIF__5EBF139D" Association="Self.FK__Factura_Pro__NIF__5EBF139D">
+            <End Role="Proveedor" EntitySet="Proveedor" />
+            <End Role="Factura_Prov" EntitySet="Factura_Prov" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Habitacion__Tipo__3F466844" Association="Self.FK__Habitacion__Tipo__3F466844">
+            <End Role="Precio" EntitySet="Precio" />
+            <End Role="Habitacion" EntitySet="Habitacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Incluye__CodigoF__5812160E" Association="Self.FK__Incluye__CodigoF__5812160E">
+            <End Role="Factura" EntitySet="Factura" />
+            <End Role="Incluye" EntitySet="Incluye" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Incluye__CodS__59063A47" Association="Self.FK__Incluye__CodS__59063A47">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="Incluye" EntitySet="Incluye" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Limpieza__Numero__6383C8BA" Association="Self.FK__Limpieza__Numero__6383C8BA">
+            <End Role="Habitacion" EntitySet="Habitacion" />
+            <End Role="Limpieza" EntitySet="Limpieza" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Limpieza__NumReg__628FA481" Association="Self.FK__Limpieza__NumReg__628FA481">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Limpieza" EntitySet="Limpieza" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Proveedor__NumRe__5BE2A6F2" Association="Self.FK__Proveedor__NumRe__5BE2A6F2">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Proveedor" EntitySet="Proveedor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reserva__DNI__4222D4EF" Association="Self.FK__Reserva__DNI__4222D4EF">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reserva__Numero__4316F928" Association="Self.FK__Reserva__Numero__4316F928">
+            <End Role="Habitacion" EntitySet="Habitacion" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Servicio__NumReg__4F7CD00D" Association="Self.FK__Servicio__NumReg__4F7CD00D">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Servicio" EntitySet="Servicio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usa__CodS__5441852A" Association="Self.FK__Usa__CodS__5441852A">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="Usa" EntitySet="Usa" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usa__Servicio_Co__5535A963" Association="Self.FK__Usa__Servicio_Co__5535A963">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="Usa" EntitySet="Usa" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HotelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="DNI" />
+          </Key>
+          <Property Name="DNI" Type="String" MaxLength="9" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Apellidos" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Domicilio" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Factura" Relationship="Self.FK__Factura__DNI__48CFD27E" FromRole="Cliente" ToRole="Factura" />
+          <NavigationProperty Name="Reserva" Relationship="Self.FK__Reserva__DNI__4222D4EF" FromRole="Cliente" ToRole="Reserva" />
+        </EntityType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="NumReg" />
+          </Key>
+          <Property Name="NumReg" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Incorporacion" Type="DateTime" Precision="3" />
+          <Property Name="Sueldo" Type="Int32" />
+          <Property Name="CodS" Type="Int32" />
+          <NavigationProperty Name="Servicio" Relationship="Self.FK__Empleado__CodS__5165187F" FromRole="Empleado" ToRole="Servicio" />
+          <NavigationProperty Name="Factura_Prov" Relationship="Self.FK__Factura_P__NumRe__5FB337D6" FromRole="Empleado" ToRole="Factura_Prov" />
+          <NavigationProperty Name="Limpieza" Relationship="Self.FK__Limpieza__NumReg__628FA481" FromRole="Empleado" ToRole="Limpieza" />
+          <NavigationProperty Name="Proveedor" Relationship="Self.FK__Proveedor__NumRe__5BE2A6F2" FromRole="Empleado" ToRole="Proveedor" />
+          <NavigationProperty Name="Servicio1" Relationship="Self.FK__Servicio__NumReg__4F7CD00D" FromRole="Empleado" ToRole="Servicio" />
+        </EntityType>
+        <EntityType Name="Factura">
+          <Key>
+            <PropertyRef Name="CodigoF" />
+          </Key>
+          <Property Name="CodigoF" Type="Int32" Nullable="false" />
+          <Property Name="Entrada" Type="DateTime" Precision="3" />
+          <Property Name="Salida" Type="DateTime" Precision="3" />
+          <Property Name="DNI" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="Numero" Type="Int32" Nullable="false" />
+          <Property Name="supletoria" Type="Int32" />
+          <Property Name="Forma" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Total" Type="Single" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK__Factura__DNI__48CFD27E" FromRole="Factura" ToRole="Cliente" />
+          <NavigationProperty Name="FormaPago" Relationship="Self.FK__Factura__Forma__4AB81AF0" FromRole="Factura" ToRole="FormaPago" />
+          <NavigationProperty Name="Habitacion" Relationship="Self.FK__Factura__Numero__49C3F6B7" FromRole="Factura" ToRole="Habitacion" />
+          <NavigationProperty Name="Incluye" Relationship="Self.FK__Incluye__CodigoF__5812160E" FromRole="Factura" ToRole="Incluye" />
+        </EntityType>
+        <EntityType Name="Factura_Prov">
+          <Key>
+            <PropertyRef Name="CodFP" />
+          </Key>
+          <Property Name="CodFP" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="Importe" Type="Int32" />
+          <Property Name="NIF" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NumReg" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Empleado" Relationship="Self.FK__Factura_P__NumRe__5FB337D6" FromRole="Factura_Prov" ToRole="Empleado" />
+          <NavigationProperty Name="Proveedor" Relationship="Self.FK__Factura_Pro__NIF__5EBF139D" FromRole="Factura_Prov" ToRole="Proveedor" />
+        </EntityType>
+        <EntityType Name="FormaPago">
+          <Key>
+            <PropertyRef Name="Forma" />
+          </Key>
+          <Property Name="Forma" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="comision" Type="Int32" />
+          <NavigationProperty Name="Factura" Relationship="Self.FK__Factura__Forma__4AB81AF0" FromRole="FormaPago" ToRole="Factura" />
+        </EntityType>
+        <EntityType Name="Habitacion">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="Int32" Nullable="false" />
+          <Property Name="superficie" Type="Int32" />
+          <Property Name="bar" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="terraza" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="puedesupletoria" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Tipo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Factura" Relationship="Self.FK__Factura__Numero__49C3F6B7" FromRole="Habitacion" ToRole="Factura" />
+          <NavigationProperty Name="Precio" Relationship="Self.FK__Habitacion__Tipo__3F466844" FromRole="Habitacion" ToRole="Precio" />
+          <NavigationProperty Name="Limpieza" Relationship="Self.FK__Limpieza__Numero__6383C8BA" FromRole="Habitacion" ToRole="Limpieza" />
+          <NavigationProperty Name="Reserva" Relationship="Self.FK__Reserva__Numero__4316F928" FromRole="Habitacion" ToRole="Reserva" />
+        </EntityType>
+        <EntityType Name="Incluye">
+          <Key>
+            <PropertyRef Name="CodigoF" />
+            <PropertyRef Name="CodS" />
+            <PropertyRef Name="fecha" />
+          </Key>
+          <Property Name="CodigoF" Type="Int32" Nullable="false" />
+          <Property Name="CodS" Type="Int32" Nullable="false" />
+          <Property Name="coste" Type="Int32" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Factura" Relationship="Self.FK__Incluye__CodigoF__5812160E" FromRole="Incluye" ToRole="Factura" />
+          <NavigationProperty Name="Servicio" Relationship="Self.FK__Incluye__CodS__59063A47" FromRole="Incluye" ToRole="Servicio" />
+        </EntityType>
+        <EntityType Name="Limpieza">
+          <Key>
+            <PropertyRef Name="NumReg" />
+            <PropertyRef Name="Numero" />
+            <PropertyRef Name="Fecha" />
+          </Key>
+          <Property Name="NumReg" Type="Int32" Nullable="false" />
+          <Property Name="Numero" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Empleado" Relationship="Self.FK__Limpieza__NumReg__628FA481" FromRole="Limpieza" ToRole="Empleado" />
+          <NavigationProperty Name="Habitacion" Relationship="Self.FK__Limpieza__Numero__6383C8BA" FromRole="Limpieza" ToRole="Habitacion" />
+        </EntityType>
+        <EntityType Name="Precio">
+          <Key>
+            <PropertyRef Name="Tipo" />
+          </Key>
+          <Property Name="Tipo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="precio1" Type="Int32" />
+          <NavigationProperty Name="Habitacion" Relationship="Self.FK__Habitacion__Tipo__3F466844" FromRole="Precio" ToRole="Habitacion" />
+        </EntityType>
+        <EntityType Name="Proveedor">
+          <Key>
+            <PropertyRef Name="NIF" />
+          </Key>
+          <Property Name="NIF" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="NumReg" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Empleado" Relationship="Self.FK__Proveedor__NumRe__5BE2A6F2" FromRole="Proveedor" ToRole="Empleado" />
+          <NavigationProperty Name="Factura_Prov" Relationship="Self.FK__Factura_Pro__NIF__5EBF139D" FromRole="Proveedor" ToRole="Factura_Prov" />
+        </EntityType>
+        <EntityType Name="Reserva">
+          <Key>
+            <PropertyRef Name="DNI" />
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="DNI" Type="String" MaxLength="9" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Numero" Type="Int32" Nullable="false" />
+          <Property Name="Entrada" Type="DateTime" Precision="3" />
+          <Property Name="Salida" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK__Reserva__DNI__4222D4EF" FromRole="Reserva" ToRole="Cliente" />
+          <NavigationProperty Name="Habitacion" Relationship="Self.FK__Reserva__Numero__4316F928" FromRole="Reserva" ToRole="Habitacion" />
+        </EntityType>
+        <EntityType Name="Servicio">
+          <Key>
+            <PropertyRef Name="CodS" />
+          </Key>
+          <Property Name="CodS" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="costeinterno" Type="Int32" />
+          <Property Name="NumReg" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Empleado" Relationship="Self.FK__Empleado__CodS__5165187F" FromRole="Servicio" ToRole="Empleado" />
+          <NavigationProperty Name="Empleado1" Relationship="Self.FK__Servicio__NumReg__4F7CD00D" FromRole="Servicio" ToRole="Empleado" />
+          <NavigationProperty Name="Incluye" Relationship="Self.FK__Incluye__CodS__59063A47" FromRole="Servicio" ToRole="Incluye" />
+          <NavigationProperty Name="Usa" Relationship="Self.FK__Usa__CodS__5441852A" FromRole="Servicio" ToRole="Usa" />
+          <NavigationProperty Name="Usa1" Relationship="Self.FK__Usa__Servicio_Co__5535A963" FromRole="Servicio" ToRole="Usa" />
+        </EntityType>
+        <EntityType Name="Usa">
+          <Key>
+            <PropertyRef Name="CodS" />
+            <PropertyRef Name="Servicio_CodS" />
+            <PropertyRef Name="fecha" />
+          </Key>
+          <Property Name="CodS" Type="Int32" Nullable="false" />
+          <Property Name="Servicio_CodS" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Servicio" Relationship="Self.FK__Usa__CodS__5441852A" FromRole="Usa" ToRole="Servicio" />
+          <NavigationProperty Name="Servicio1" Relationship="Self.FK__Usa__Servicio_Co__5535A963" FromRole="Usa" ToRole="Servicio" />
+        </EntityType>
+        <Association Name="FK__Factura__DNI__48CFD27E">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+          <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="DNI" />
+            </Principal>
+            <Dependent Role="Factura">
+              <PropertyRef Name="DNI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reserva__DNI__4222D4EF">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="DNI" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="DNI" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Empleado__CodS__5165187F">
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="0..1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicio">
+              <PropertyRef Name="CodS" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="CodS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Factura_P__NumRe__5FB337D6">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Factura_Prov" Type="Self.Factura_Prov" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="NumReg" />
+            </Principal>
+            <Dependent Role="Factura_Prov">
+              <PropertyRef Name="NumReg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Limpieza__NumReg__628FA481">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Limpieza" Type="Self.Limpieza" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="NumReg" />
+            </Principal>
+            <Dependent Role="Limpieza">
+              <PropertyRef Name="NumReg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Proveedor__NumRe__5BE2A6F2">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="NumReg" />
+            </Principal>
+            <Dependent Role="Proveedor">
+              <PropertyRef Name="NumReg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Servicio__NumReg__4F7CD00D">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="NumReg" />
+            </Principal>
+            <Dependent Role="Servicio">
+              <PropertyRef Name="NumReg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Factura__Forma__4AB81AF0">
+          <End Role="FormaPago" Type="Self.FormaPago" Multiplicity="1" />
+          <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FormaPago">
+              <PropertyRef Name="Forma" />
+            </Principal>
+            <Dependent Role="Factura">
+              <PropertyRef Name="Forma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Factura__Numero__49C3F6B7">
+          <End Role="Habitacion" Type="Self.Habitacion" Multiplicity="1" />
+          <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Habitacion">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Factura">
+              <PropertyRef Name="Numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Incluye__CodigoF__5812160E">
+          <End Role="Factura" Type="Self.Factura" Multiplicity="1" />
+          <End Role="Incluye" Type="Self.Incluye" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Factura">
+              <PropertyRef Name="CodigoF" />
+            </Principal>
+            <Dependent Role="Incluye">
+              <PropertyRef Name="CodigoF" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Factura_Pro__NIF__5EBF139D">
+          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="1" />
+          <End Role="Factura_Prov" Type="Self.Factura_Prov" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedor">
+              <PropertyRef Name="NIF" />
+            </Principal>
+            <Dependent Role="Factura_Prov">
+              <PropertyRef Name="NIF" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Habitacion__Tipo__3F466844">
+          <End Role="Precio" Type="Self.Precio" Multiplicity="1" />
+          <End Role="Habitacion" Type="Self.Habitacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Precio">
+              <PropertyRef Name="Tipo" />
+            </Principal>
+            <Dependent Role="Habitacion">
+              <PropertyRef Name="Tipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Limpieza__Numero__6383C8BA">
+          <End Role="Habitacion" Type="Self.Habitacion" Multiplicity="1" />
+          <End Role="Limpieza" Type="Self.Limpieza" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Habitacion">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Limpieza">
+              <PropertyRef Name="Numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reserva__Numero__4316F928">
+          <End Role="Habitacion" Type="Self.Habitacion" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Habitacion">
+              <PropertyRef Name="Numero" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="Numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Incluye__CodS__59063A47">
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
+          <End Role="Incluye" Type="Self.Incluye" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicio">
+              <PropertyRef Name="CodS" />
+            </Principal>
+            <Dependent Role="Incluye">
+              <PropertyRef Name="CodS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usa__CodS__5441852A">
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
+          <End Role="Usa" Type="Self.Usa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicio">
+              <PropertyRef Name="CodS" />
+            </Principal>
+            <Dependent Role="Usa">
+              <PropertyRef Name="CodS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usa__Servicio_Co__5535A963">
+          <End Role="Servicio" Type="Self.Servicio" Multiplicity="1" />
+          <End Role="Usa" Type="Self.Usa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicio">
+              <PropertyRef Name="CodS" />
+            </Principal>
+            <Dependent Role="Usa">
+              <PropertyRef Name="Servicio_CodS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HotelEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+          <EntitySet Name="Empleado" EntityType="Self.Empleado" />
+          <EntitySet Name="Factura" EntityType="Self.Factura" />
+          <EntitySet Name="Factura_Prov" EntityType="Self.Factura_Prov" />
+          <EntitySet Name="FormaPago" EntityType="Self.FormaPago" />
+          <EntitySet Name="Habitacion" EntityType="Self.Habitacion" />
+          <EntitySet Name="Incluye" EntityType="Self.Incluye" />
+          <EntitySet Name="Limpieza" EntityType="Self.Limpieza" />
+          <EntitySet Name="Precio" EntityType="Self.Precio" />
+          <EntitySet Name="Proveedor" EntityType="Self.Proveedor" />
+          <EntitySet Name="Reserva" EntityType="Self.Reserva" />
+          <EntitySet Name="Servicio" EntityType="Self.Servicio" />
+          <EntitySet Name="Usa" EntityType="Self.Usa" />
+          <AssociationSet Name="FK__Factura__DNI__48CFD27E" Association="Self.FK__Factura__DNI__48CFD27E">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Factura" EntitySet="Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reserva__DNI__4222D4EF" Association="Self.FK__Reserva__DNI__4222D4EF">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Empleado__CodS__5165187F" Association="Self.FK__Empleado__CodS__5165187F">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Factura_P__NumRe__5FB337D6" Association="Self.FK__Factura_P__NumRe__5FB337D6">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Factura_Prov" EntitySet="Factura_Prov" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Limpieza__NumReg__628FA481" Association="Self.FK__Limpieza__NumReg__628FA481">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Limpieza" EntitySet="Limpieza" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Proveedor__NumRe__5BE2A6F2" Association="Self.FK__Proveedor__NumRe__5BE2A6F2">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Proveedor" EntitySet="Proveedor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Servicio__NumReg__4F7CD00D" Association="Self.FK__Servicio__NumReg__4F7CD00D">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Servicio" EntitySet="Servicio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Factura__Forma__4AB81AF0" Association="Self.FK__Factura__Forma__4AB81AF0">
+            <End Role="FormaPago" EntitySet="FormaPago" />
+            <End Role="Factura" EntitySet="Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Factura__Numero__49C3F6B7" Association="Self.FK__Factura__Numero__49C3F6B7">
+            <End Role="Habitacion" EntitySet="Habitacion" />
+            <End Role="Factura" EntitySet="Factura" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Incluye__CodigoF__5812160E" Association="Self.FK__Incluye__CodigoF__5812160E">
+            <End Role="Factura" EntitySet="Factura" />
+            <End Role="Incluye" EntitySet="Incluye" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Factura_Pro__NIF__5EBF139D" Association="Self.FK__Factura_Pro__NIF__5EBF139D">
+            <End Role="Proveedor" EntitySet="Proveedor" />
+            <End Role="Factura_Prov" EntitySet="Factura_Prov" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Habitacion__Tipo__3F466844" Association="Self.FK__Habitacion__Tipo__3F466844">
+            <End Role="Precio" EntitySet="Precio" />
+            <End Role="Habitacion" EntitySet="Habitacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Limpieza__Numero__6383C8BA" Association="Self.FK__Limpieza__Numero__6383C8BA">
+            <End Role="Habitacion" EntitySet="Habitacion" />
+            <End Role="Limpieza" EntitySet="Limpieza" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reserva__Numero__4316F928" Association="Self.FK__Reserva__Numero__4316F928">
+            <End Role="Habitacion" EntitySet="Habitacion" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Incluye__CodS__59063A47" Association="Self.FK__Incluye__CodS__59063A47">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="Incluye" EntitySet="Incluye" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usa__CodS__5441852A" Association="Self.FK__Usa__CodS__5441852A">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="Usa" EntitySet="Usa" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usa__Servicio_Co__5535A963" Association="Self.FK__Usa__Servicio_Co__5535A963">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="Usa" EntitySet="Usa" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HotelModelStoreContainer" CdmEntityContainer="HotelEntities">
+          <EntitySetMapping Name="Cliente">
+            <EntityTypeMapping TypeName="HotelModel.Cliente">
+              <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="DNI" ColumnName="DNI" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="Domicilio" ColumnName="Domicilio" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empleado">
+            <EntityTypeMapping TypeName="HotelModel.Empleado">
+              <MappingFragment StoreEntitySet="Empleado">
+                <ScalarProperty Name="NumReg" ColumnName="NumReg" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Incorporacion" ColumnName="Incorporacion" />
+                <ScalarProperty Name="Sueldo" ColumnName="Sueldo" />
+                <ScalarProperty Name="CodS" ColumnName="CodS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Factura">
+            <EntityTypeMapping TypeName="HotelModel.Factura">
+              <MappingFragment StoreEntitySet="Factura">
+                <ScalarProperty Name="CodigoF" ColumnName="CodigoF" />
+                <ScalarProperty Name="Entrada" ColumnName="Entrada" />
+                <ScalarProperty Name="Salida" ColumnName="Salida" />
+                <ScalarProperty Name="DNI" ColumnName="DNI" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="supletoria" ColumnName="supletoria" />
+                <ScalarProperty Name="Forma" ColumnName="Forma" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Factura_Prov">
+            <EntityTypeMapping TypeName="HotelModel.Factura_Prov">
+              <MappingFragment StoreEntitySet="Factura_Prov">
+                <ScalarProperty Name="CodFP" ColumnName="CodFP" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Importe" ColumnName="Importe" />
+                <ScalarProperty Name="NIF" ColumnName="NIF" />
+                <ScalarProperty Name="NumReg" ColumnName="NumReg" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FormaPago">
+            <EntityTypeMapping TypeName="HotelModel.FormaPago">
+              <MappingFragment StoreEntitySet="FormaPago">
+                <ScalarProperty Name="Forma" ColumnName="Forma" />
+                <ScalarProperty Name="comision" ColumnName="comision" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Habitacion">
+            <EntityTypeMapping TypeName="HotelModel.Habitacion">
+              <MappingFragment StoreEntitySet="Habitacion">
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="superficie" ColumnName="superficie" />
+                <ScalarProperty Name="bar" ColumnName="bar" />
+                <ScalarProperty Name="terraza" ColumnName="terraza" />
+                <ScalarProperty Name="puedesupletoria" ColumnName="puedesupletoria" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Incluye">
+            <EntityTypeMapping TypeName="HotelModel.Incluye">
+              <MappingFragment StoreEntitySet="Incluye">
+                <ScalarProperty Name="CodigoF" ColumnName="CodigoF" />
+                <ScalarProperty Name="CodS" ColumnName="CodS" />
+                <ScalarProperty Name="coste" ColumnName="coste" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Limpieza">
+            <EntityTypeMapping TypeName="HotelModel.Limpieza">
+              <MappingFragment StoreEntitySet="Limpieza">
+                <ScalarProperty Name="NumReg" ColumnName="NumReg" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Precio">
+            <EntityTypeMapping TypeName="HotelModel.Precio">
+              <MappingFragment StoreEntitySet="Precio">
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="precio1" ColumnName="precio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proveedor">
+            <EntityTypeMapping TypeName="HotelModel.Proveedor">
+              <MappingFragment StoreEntitySet="Proveedor">
+                <ScalarProperty Name="NIF" ColumnName="NIF" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="NumReg" ColumnName="NumReg" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reserva">
+            <EntityTypeMapping TypeName="HotelModel.Reserva">
+              <MappingFragment StoreEntitySet="Reserva">
+                <ScalarProperty Name="DNI" ColumnName="DNI" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="Entrada" ColumnName="Entrada" />
+                <ScalarProperty Name="Salida" ColumnName="Salida" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Servicio">
+            <EntityTypeMapping TypeName="HotelModel.Servicio">
+              <MappingFragment StoreEntitySet="Servicio">
+                <ScalarProperty Name="CodS" ColumnName="CodS" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="costeinterno" ColumnName="costeinterno" />
+                <ScalarProperty Name="NumReg" ColumnName="NumReg" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usa">
+            <EntityTypeMapping TypeName="HotelModel.Usa">
+              <MappingFragment StoreEntitySet="Usa">
+                <ScalarProperty Name="CodS" ColumnName="CodS" />
+                <ScalarProperty Name="Servicio_CodS" ColumnName="Servicio_CodS" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
